@@ -11,23 +11,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      home: Scaffold(body: Testpage()),
-    );
-  }
-}
-
-class Testpage extends StatefulWidget {
-  const Testpage({Key? key}) : super(key: key);
-
-  @override
-  _TestpageState createState() => _TestpageState();
-}
-
-class _TestpageState extends State<Testpage> {
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      child: Center(child: Text("This is TestPage")),
+      home: Scaffold(body: LoginPage()),
     );
   }
 }
