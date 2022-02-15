@@ -100,5 +100,26 @@
       loadMainDartJs();
     }
   </script>
+   <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+   <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-firestore.js"></script>
+   <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-analytics.js"></script>
+ 
+   <script>
+   //Replace with your config data
+   const firebaseConfig = {
+    apiKey: "AIzaSyBwu0V3OaNExiW5OjVGCjUjPAwLKzlvJHs",
+    authDomain: "collegebuddy-3785f.firebaseapp.com",
+    databaseURL: "https://collegebuddy-3785f-default-rtdb.firebaseio.com",
+    projectId: "collegebuddy-3785f",
+    storageBucket: "collegebuddy-3785f.appspot.com",
+    messagingSenderId: "1084965361215",
+    appId: "1:1084965361215:web:af0ce4bd71c29dd21d4a8a",
+    measurementId: "G-RV063F9R4L"
+  };
+     
+   // Initialize Firebase
+   firebase.initializeApp(firebaseConfig);
+   firebase.analytics();
+   </script>
 </body>
 </html>

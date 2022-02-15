@@ -18,11 +18,6 @@ class _HomePageState extends State<HomePage> {
       drawer: Drawer(
         child: ListView(
           children: [
-            IconButton(
-                onPressed: () {
-                  print("Hello");
-                },
-                icon: Icon(Icons.dashboard)),
             ListTile(
               onTap: () {
                 print("Tapped");

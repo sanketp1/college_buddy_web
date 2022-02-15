@@ -1,7 +1,12 @@
 import 'package:collegebuddyweb/Pages/LoginPage.dart';
+import 'package:collegebuddyweb/Pages/resultPage.dart';
+import 'package:collegebuddyweb/Pages/schedulePage.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
   runApp(MyApp());
 }
 
@@ -11,7 +16,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      home: Scaffold(body: LoginPage()),
+      home: SchedulePage(),
     );
   }
 }
