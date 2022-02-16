@@ -1,12 +1,15 @@
 import 'dart:io';
+import 'dart:typed_data';
 
 import 'package:collegebuddyweb/Models/QuestionAnswerGenerator.dart';
 import 'package:excel/excel.dart';
 import 'package:file_picker/_internal/file_picker_web.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:duration_picker/duration_picker.dart';
+import 'dart:html' as html;
 
 class SchedulePage extends StatefulWidget {
   const SchedulePage({Key? key}) : super(key: key);
@@ -18,23 +21,45 @@ class SchedulePage extends StatefulWidget {
 class _SchedulePageState extends State<SchedulePage> {
   var selctedDuration = "00:00 HH:MM";
   String? xlsxFilePath;
-  pickxlsxFile() async {
-    FilePickerResult? result = await FilePicker.platform.pickFiles();
 
-    if (result != null) {
-      PlatformFile file = result.files.first;
+  void pickFile() {
+    final input = html.FileUploadInputElement()..accept = 'xlsx/*';
+    input.onChange.listen((event) {
+      if (input.files!.isNotEmpty) {
+        final fileName = input.files!.first.name; // file name without path!
 
-      // print(file.name);
-      // print(file.bytes);
-      // print(file.size);
-      // print(file.extension);
-      // print(file.path);
-      setState(() {
-        xlsxFilePath = file.path.toString();
-      });
-    } else {
-      // User canceled the picker
-    }
+        // synthetic file path can be used with Image.network()
+        final url = html.Url.createObjectUrl(input.files!.first);
+        setState(() {
+          xlsxFilePath = url.toString();
+        });
+      }
+    });
+    input.click();
+  }
+
+  Map files = {};
+
+  Future<void> pickWebFile() async {
+    List<html.File> webFiles = [];
+    final uploadInput = html.FileUploadInputElement();
+    uploadInput.click();
+    uploadInput.onChange.listen((e) {
+      webFiles = uploadInput.files!;
+      for (html.File webFile in webFiles) {
+        var r = new html.FileReader();
+        Uint8List? fileData;
+        r.readAsArrayBuffer(webFile);
+        r.onLoadEnd.listen((e) async {
+          final fileData = r.result;
+          if (webFile.size < 4194304) {
+            setState(() {
+              files[webFile.name] = fileData;
+            });
+          }
+        });
+      }
+    });
   }
 
   @override
@@ -78,7 +103,7 @@ class _SchedulePageState extends State<SchedulePage> {
                 ),
                 child: Center(
                     child: Text(
-                  "Select .xlsx file",
+                  xlsxFilePath ?? "Select .xlsx file",
                   style: GoogleFonts.poppins(
                       fontSize: 14, fontWeight: FontWeight.w400),
                 )),
@@ -89,13 +114,14 @@ class _SchedulePageState extends State<SchedulePage> {
                       shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(20))),
                   onPressed: () async {
-                    await pickxlsxFile();
-                    print(xlsxFilePath);
+                    
+                    
                   },
                   child: Text("Browse"))
             ],
           ),
-          Padding(
+          Padding( 
+            
             padding: const EdgeInsets.all(16.0),
             child: Text(
               "Select Duration: ",
@@ -140,6 +166,7 @@ class _SchedulePageState extends State<SchedulePage> {
                       shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(20))),
                   onPressed: () async {
+                    print(xlsxFilePath);
                     var resultingDuration = await showDurationPicker(
                       context: context,
                       initialTime: Duration(minutes: 30),
@@ -214,7 +241,8 @@ class _SchedulePageState extends State<SchedulePage> {
                       });
                 },
                 child: Text("Schedule")),
-          )
+          ),
+        
         ],
       ),
     );

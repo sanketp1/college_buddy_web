@@ -1,6 +1,7 @@
 import 'package:collegebuddyweb/Pages/LoginPage.dart';
 import 'package:collegebuddyweb/Pages/resultPage.dart';
 import 'package:collegebuddyweb/Pages/schedulePage.dart';
+import 'package:collegebuddyweb/responsive/layout_builder.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 
@@ -16,7 +17,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      home: SchedulePage(),
+      home: Responsive(),
     );
   }
 }
