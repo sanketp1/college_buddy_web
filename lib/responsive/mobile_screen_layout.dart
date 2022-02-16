@@ -26,7 +26,7 @@ class MobileScreenLayout extends StatelessWidget {
               fit: BoxFit.fill)),
       child: Center(
         child: Container(
-          height: midWindowheight * 0.5,
+          height: midWindowheight * 0.6,
           width: midWindowWidth,
           decoration: BoxDecoration(
               color: Colors.white,
