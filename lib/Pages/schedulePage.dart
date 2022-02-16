@@ -1,3 +1,9 @@
+import 'dart:io';
+
+import 'package:collegebuddyweb/Models/QuestionAnswerGenerator.dart';
+import 'package:excel/excel.dart';
+import 'package:file_picker/_internal/file_picker_web.dart';
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:duration_picker/duration_picker.dart';
@@ -11,6 +17,26 @@ class SchedulePage extends StatefulWidget {
 
 class _SchedulePageState extends State<SchedulePage> {
   var selctedDuration = "00:00 HH:MM";
+  String? xlsxFilePath;
+  pickxlsxFile() async {
+    FilePickerResult? result = await FilePicker.platform.pickFiles();
+
+    if (result != null) {
+      PlatformFile file = result.files.first;
+
+      // print(file.name);
+      // print(file.bytes);
+      // print(file.size);
+      // print(file.extension);
+      // print(file.path);
+      setState(() {
+        xlsxFilePath = file.path.toString();
+      });
+    } else {
+      // User canceled the picker
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
@@ -62,7 +88,10 @@ class _SchedulePageState extends State<SchedulePage> {
                       minimumSize: Size(120, 44),
                       shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(20))),
-                  onPressed: () {},
+                  onPressed: () async {
+                    await pickxlsxFile();
+                    print(xlsxFilePath);
+                  },
                   child: Text("Browse"))
             ],
           ),
@@ -190,4 +219,56 @@ class _SchedulePageState extends State<SchedulePage> {
       ),
     );
   }
+}
+
+jsonEncoder(String path) {
+  var file = path;
+  var bytes = File(file).readAsBytesSync();
+  var excel = Excel.decodeBytes(bytes);
+  List jsonQuestionOption = [];
+  List jsonQuestionAnswer = [];
+  List mixing = [];
+  String? question;
+  String? c1;
+  String? c2;
+  String? c3;
+  String? c4;
+  String? c5;
+  for (var table in excel.tables.keys) {
+    print(table); //sheet Name
+
+    int rows = excel.tables[table]!.maxRows;
+
+    for (int i = 1; i < rows; i++) {
+      excel.tables[table]!.rows[i].forEach((element) {
+        if (element!.colIndex == 0) {
+          question = element.value;
+        } else {
+          if (element.colIndex == 1) {
+            c1 = element.value;
+          }
+          if (element.colIndex == 2) {
+            c2 = element.value;
+          }
+          if (element.colIndex == 3) {
+            c3 = element.value;
+          }
+          if (element.colIndex == 4) {
+            c4 = element.value;
+          }
+          if (element.colIndex == 5) {
+            c5 = element.value;
+          }
+        }
+      });
+
+      QuestionOptionsGenerator questionOptionsGenerator =
+          QuestionOptionsGenerator(
+              question: question, c1: c1, c2: c2, c3: c3, c4: c4, c5: c5);
+      jsonQuestionOption.add(questionOptionsGenerator.toQuestionOptionMap());
+      jsonQuestionAnswer.add(questionOptionsGenerator.toQuestionAnswerMap());
+    }
+  }
+  mixing = [jsonQuestionOption, jsonQuestionAnswer];
+  return mixing;
 }

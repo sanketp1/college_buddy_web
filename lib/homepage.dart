@@ -1,6 +1,6 @@
 import 'package:collegebuddyweb/Pages/coursespage.dart';
 import 'package:collegebuddyweb/Pages/schedulePage.dart';
-import 'package:collegebuddyweb/Pages/dashboard.dart';
+
 import 'package:flutter/material.dart';
 
 class HomePage extends StatefulWidget {
