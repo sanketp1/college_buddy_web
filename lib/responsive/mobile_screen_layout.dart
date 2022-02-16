@@ -26,13 +26,12 @@ class MobileScreenLayout extends StatelessWidget {
               fit: BoxFit.fill)),
       child: Center(
         child: Container(
-          height: midWindowheight * 0.45,
+          height: midWindowheight * 0.5,
           width: midWindowWidth,
           decoration: BoxDecoration(
               color: Colors.white,
               borderRadius: BorderRadius.circular(15),
               image: DecorationImage(
-                  opacity: 0.4,
                   image: AssetImage("assets/Rectangle2.png"),
                   fit: BoxFit.cover)),
           child: Stack(
@@ -113,7 +112,7 @@ class MobileScreenLayout extends StatelessWidget {
                     ),
                   )),
               Positioned(
-                  bottom: 15,
+                  bottom: 20,
                   right: 0,
                   left: 0,
                   child: Center(
