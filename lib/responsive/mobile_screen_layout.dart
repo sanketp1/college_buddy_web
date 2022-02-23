@@ -1,4 +1,4 @@
-import 'package:collegebuddyweb/homepage.dart';
+import 'package:collegebuddyweb/homeScreen.dart';
 import 'package:collegebuddyweb/widgets/hexColor.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -112,7 +112,7 @@ class MobileScreenLayout extends StatelessWidget {
                     ),
                   )),
               Positioned(
-                  bottom: 20,
+                  top: 260,
                   right: 0,
                   left: 0,
                   child: Center(

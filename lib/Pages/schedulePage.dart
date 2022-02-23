@@ -22,53 +22,12 @@ class _SchedulePageState extends State<SchedulePage> {
   var selctedDuration = "00:00 HH:MM";
   String? xlsxFilePath;
 
-  void pickFile() {
-    final input = html.FileUploadInputElement()..accept = 'xlsx/*';
-    input.onChange.listen((event) {
-      if (input.files!.isNotEmpty) {
-        final fileName = input.files!.first.name; // file name without path!
-
-        // synthetic file path can be used with Image.network()
-        final url = html.Url.createObjectUrl(input.files!.first);
-        setState(() {
-          xlsxFilePath = url.toString();
-        });
-      }
-    });
-    input.click();
-  }
-
-  Map files = {};
-
-  Future<void> pickWebFile() async {
-    List<html.File> webFiles = [];
-    final uploadInput = html.FileUploadInputElement();
-    uploadInput.click();
-    uploadInput.onChange.listen((e) {
-      webFiles = uploadInput.files!;
-      for (html.File webFile in webFiles) {
-        var r = new html.FileReader();
-        Uint8List? fileData;
-        r.readAsArrayBuffer(webFile);
-        r.onLoadEnd.listen((e) async {
-          final fileData = r.result;
-          if (webFile.size < 4194304) {
-            setState(() {
-              files[webFile.name] = fileData;
-            });
-          }
-        });
-      }
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
     double height = MediaQuery.of(context).size.height;
-    return Scaffold(
-      appBar: AppBar(title: Text("Schedule")),
-      body: Column(
+    return Container(
+      child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Padding(
@@ -113,15 +72,11 @@ class _SchedulePageState extends State<SchedulePage> {
                       minimumSize: Size(120, 44),
                       shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(20))),
-                  onPressed: () async {
-                    
-                    
-                  },
+                  onPressed: () async {},
                   child: Text("Browse"))
             ],
           ),
-          Padding( 
-            
+          Padding(
             padding: const EdgeInsets.all(16.0),
             child: Text(
               "Select Duration: ",
@@ -168,6 +123,9 @@ class _SchedulePageState extends State<SchedulePage> {
                   onPressed: () async {
                     print(xlsxFilePath);
                     var resultingDuration = await showDurationPicker(
+                      decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(15)),
                       context: context,
                       initialTime: Duration(minutes: 30),
                     );
@@ -242,7 +200,6 @@ class _SchedulePageState extends State<SchedulePage> {
                 },
                 child: Text("Schedule")),
           ),
-        
         ],
       ),
     );
