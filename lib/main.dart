@@ -1,4 +1,5 @@
 import 'package:collegebuddyweb/Pages/LoginPage.dart';
+import 'package:collegebuddyweb/Pages/homepage.dart';
 import 'package:collegebuddyweb/Pages/resultPage.dart';
 import 'package:collegebuddyweb/Pages/schedulePage.dart';
 import 'package:collegebuddyweb/homeScreen.dart';
@@ -19,6 +20,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
+      // home: Scaffold(body: HomePage()),
       home: HomeScreen(),
     );
   }

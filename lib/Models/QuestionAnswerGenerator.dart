@@ -20,7 +20,7 @@ class QuestionOptionsGenerator {
   }
 
   Map<String, dynamic> toQuestionAnswerMap() {
-    return {"question": question, "correctChoice": c5};
+    return {"question": question, "choice": c5};
   }
 }
 

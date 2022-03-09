@@ -17,6 +17,7 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
   String profilePic =
       "https://firebasestorage.googleapis.com/v0/b/collegebuddy-3785f.appspot.com/o/sanket-patil.png?alt=media&token=978ba8a4-07e9-4808-bb40-752cb37fc6ca";
 
@@ -29,7 +30,7 @@ class _HomeScreenState extends State<HomeScreen> {
       case 1:
         return CoursePage();
       case 2:
-        return SchedulePage();
+        return SchedulePage(scaffoldKey: scaffoldKey,);
       case 3:
         return ResultPage();
       default:
@@ -40,6 +41,8 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      
+      key: scaffoldKey,
       appBar: PreferredSize(
         preferredSize: Size.fromHeight(46),
         child: AppBar(
@@ -50,6 +53,7 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
           elevation: 8,
           actions: [
+            
             PopupMenuButton(
                 color: Colors.white,
                 itemBuilder: (context) => [
